@@ -1,0 +1,69 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "dev.su5ed.sinytra.fabric-api",
+    "module": "fabric-api",
+    "version": "0.0.0-1.18.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.4"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "fabric-api-0.0.0-1.18.2.jar",
+          "url": "fabric-api-0.0.0-1.18.2.jar",
+          "size": 6029,
+          "sha512": "8f19284537894c53411c50499a652f1ec9bbc5e59fd99dfd6cccf0d87215c391a13da32179ef84f6d5d329bfe5eec90b8c194e41dbafa3a72798f3a961518fb3",
+          "sha256": "1b5dc73e3ae9242a17e277f1a6658740fac1b0232cd35cb6c52b1dbcd2810cf4",
+          "sha1": "a4bb8649512548607384c9e7191992b96af507bd",
+          "md5": "10e5a0eb542ba34b33f93e22c4d759ec"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.minecraftforge",
+          "module": "forge",
+          "version": {
+            "requires": "1.18.2-40.3.12_mapped_official_1.18.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "fabric-api-0.0.0-1.18.2.jar",
+          "url": "fabric-api-0.0.0-1.18.2.jar",
+          "size": 6029,
+          "sha512": "8f19284537894c53411c50499a652f1ec9bbc5e59fd99dfd6cccf0d87215c391a13da32179ef84f6d5d329bfe5eec90b8c194e41dbafa3a72798f3a961518fb3",
+          "sha256": "1b5dc73e3ae9242a17e277f1a6658740fac1b0232cd35cb6c52b1dbcd2810cf4",
+          "sha1": "a4bb8649512548607384c9e7191992b96af507bd",
+          "md5": "10e5a0eb542ba34b33f93e22c4d759ec"
+        }
+      ]
+    }
+  ]
+}

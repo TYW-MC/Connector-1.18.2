@@ -1,0 +1,195 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.sinytra.adapter",
+    "module": "definition",
+    "version": "1.11.67-1.18.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.5"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.mojang",
+          "module": "datafixerupper",
+          "version": {
+            "requires": "6.0.8"
+          }
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-bom",
+          "version": {
+            "requires": "9.5"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-commons"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-tree"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-analysis"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-util"
+        }
+      ],
+      "files": [
+        {
+          "name": "definition-1.11.67-1.18.2.jar",
+          "url": "definition-1.11.67-1.18.2.jar",
+          "size": 377776,
+          "sha512": "bf1550b429ce43d5342e17356b552c28407b61986031240992b133fe2da5576ae486eefe09a5dce1eab96ee10d34dcdea4ad5294f820a2656af4c726eb4b6ce1",
+          "sha256": "a81b755b2e14b4dd00f24a3f750ea0fe84ced38bb24e1101c70ba2164171c9ea",
+          "sha1": "ba8d294e13217169b03542d6aeb5698aa048a496",
+          "md5": "8b19f9dfac00e053dd0166d94a897e29"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.mojang",
+          "module": "logging",
+          "version": {
+            "requires": "1.1.1"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "32.1.2-jre"
+          }
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "2.0.0"
+          }
+        },
+        {
+          "group": "net.fabricmc",
+          "module": "sponge-mixin",
+          "version": {
+            "requires": "0.12.5+mixin.0.8.5"
+          }
+        },
+        {
+          "group": "io.github.llamalad7",
+          "module": "mixinextras-common",
+          "version": {
+            "requires": "0.3.1"
+          }
+        },
+        {
+          "group": "com.mojang",
+          "module": "datafixerupper",
+          "version": {
+            "requires": "6.0.8"
+          }
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-bom",
+          "version": {
+            "requires": "9.5"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-commons"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-tree"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-analysis"
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-util"
+        }
+      ],
+      "files": [
+        {
+          "name": "definition-1.11.67-1.18.2.jar",
+          "url": "definition-1.11.67-1.18.2.jar",
+          "size": 377776,
+          "sha512": "bf1550b429ce43d5342e17356b552c28407b61986031240992b133fe2da5576ae486eefe09a5dce1eab96ee10d34dcdea4ad5294f820a2656af4c726eb4b6ce1",
+          "sha256": "a81b755b2e14b4dd00f24a3f750ea0fe84ced38bb24e1101c70ba2164171c9ea",
+          "sha1": "ba8d294e13217169b03542d6aeb5698aa048a496",
+          "md5": "8b19f9dfac00e053dd0166d94a897e29"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "definition-1.11.67-1.18.2-sources.jar",
+          "url": "definition-1.11.67-1.18.2-sources.jar",
+          "size": 130846,
+          "sha512": "e57095b855cc9da455eed890d5592cb36c0891ccb77296f891d9dd447a30ee1e3838f4e07009417d5eba0a2f6c48f00ccc982c43e08ec0203ec1ef43978dcb31",
+          "sha256": "55984f1daaf7c6083c55682fd1a73a13aa7944393a56670ab4c8df984c1a35da",
+          "sha1": "af340108e0b1767848e4d84175f7a532a590391e",
+          "md5": "389149c927a23d9df99a893f0bb5af04"
+        }
+      ]
+    }
+  ]
+}

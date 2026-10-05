@@ -1,0 +1,181 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "dev.su5ed.sinytra",
+    "module": "fabric-loader",
+    "version": "0.0.0+0.14.25+1.18.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.8"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "fabric-loader-0.0.0+0.14.25+1.18.2.jar",
+          "url": "fabric-loader-0.0.0+0.14.25+1.18.2.jar",
+          "size": 1367212,
+          "sha512": "655b98ec1c9cf31f7869d3ab66ea34e32ad08bd9e9925324872c20235ab572a5c3a64789cc2036dbcd7ee4f7516be738f7fb7cfa14a83f33c4de816e1764b7a3",
+          "sha256": "58db530863d671c9cd510d8e3b157041e1bfb5c20afd4c09b53841fb86896e2d",
+          "sha1": "0b4d9e4472d8991785ae0bfb6f036c91482ee28b",
+          "md5": "939aa06ec65faf5e703de266df2c1ff6"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "net.minecraftforge",
+          "module": "fmlloader",
+          "version": {
+            "requires": "1.18.2-40.3.12"
+          }
+        },
+        {
+          "group": "net.minecraftforge",
+          "module": "forgespi",
+          "version": {
+            "requires": "4.0.15-4.x"
+          }
+        },
+        {
+          "group": "cpw.mods",
+          "module": "modlauncher",
+          "version": {
+            "requires": "9.1.3"
+          }
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm",
+          "version": {
+            "requires": "9.5"
+          }
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-tree",
+          "version": {
+            "requires": "9.5"
+          }
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-commons",
+          "version": {
+            "requires": "9.5"
+          }
+        },
+        {
+          "group": "com.electronwill.night-config",
+          "module": "core",
+          "version": {
+            "requires": "3.6.4"
+          }
+        },
+        {
+          "group": "com.electronwill.night-config",
+          "module": "toml",
+          "version": {
+            "requires": "3.6.4"
+          }
+        },
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.8.9"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "31.0.1-jre"
+          }
+        },
+        {
+          "group": "org.apache.logging.log4j",
+          "module": "log4j-api",
+          "version": {
+            "requires": "2.17.1"
+          }
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "1.7.36"
+          }
+        },
+        {
+          "group": "com.mojang",
+          "module": "logging",
+          "version": {
+            "requires": "1.0.0"
+          }
+        },
+        {
+          "group": "org.jetbrains",
+          "module": "annotations",
+          "version": {
+            "requires": "23.0.0"
+          }
+        },
+        {
+          "group": "org.ow2.sat4j",
+          "module": "org.ow2.sat4j.core",
+          "version": {
+            "requires": "2.3.6"
+          }
+        },
+        {
+          "group": "org.ow2.sat4j",
+          "module": "org.ow2.sat4j.pb",
+          "version": {
+            "requires": "2.3.6"
+          }
+        },
+        {
+          "group": "net.minecraftforge",
+          "module": "srgutils",
+          "version": {
+            "requires": "0.5.4"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "fabric-loader-0.0.0+0.14.25+1.18.2.jar",
+          "url": "fabric-loader-0.0.0+0.14.25+1.18.2.jar",
+          "size": 1367212,
+          "sha512": "655b98ec1c9cf31f7869d3ab66ea34e32ad08bd9e9925324872c20235ab572a5c3a64789cc2036dbcd7ee4f7516be738f7fb7cfa14a83f33c4de816e1764b7a3",
+          "sha256": "58db530863d671c9cd510d8e3b157041e1bfb5c20afd4c09b53841fb86896e2d",
+          "sha1": "0b4d9e4472d8991785ae0bfb6f036c91482ee28b",
+          "md5": "939aa06ec65faf5e703de266df2c1ff6"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+# The vendored Maven repository must be stored byte for byte. Without this,
+# core.autocrlf would rewrite line endings inside the .pom/.module metadata
+# (and, on some setups, could corrupt the archives), which would make the
+# dependencies unusable for the CI build.
+local-repo/** binary

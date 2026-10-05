@@ -321,6 +321,15 @@ repositories {
         }
     }
     mavenLocal()
+    // Holds the 1.18.2 ports that are not published to any public Maven repository
+    // (fabric-loader, fabric-api, adapter/{adapter,definition,runtime}, mixin-transmogrifier).
+    // They are committed so CI resolves the same dependencies as a developer machine,
+    // which relies on a populated ~/.m2/repository. mavenLocal() is listed first on
+    // purpose, so a developer's freshly built artifacts still take precedence locally.
+    maven {
+        name = "LocalPorts"
+        url = uri("local-repo")
+    }
 }
 
 dependencies {
