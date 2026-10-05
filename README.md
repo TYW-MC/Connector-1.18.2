@@ -7,3 +7,7 @@ A compatibility layer that allows running Fabric mods on 1.18.2 Forge
 Based on [Connector](https://github.com/Sinytra/Connector) by Original Author, licensed under MIT.
 
 Please do not file issues on the Sinytra repository.
+
+Porting Author by [TYW](https://github.com/TYW-MC/)
+
+Planning by [Huocat520-mmaker](https://github.com/huocat520-maker)
