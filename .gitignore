@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+**/build/
+!src/**/build/
+gradle-app.setting
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+
+# Runtime
+run/
+**/run/
+remappedSrc/
+*.log
+hs_err_pid*
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,19 @@
+{
+ "methods": [
+  {
+   "owner": "net/minecraft/client/renderer/block/LiquidBlockRenderer",
+   "name": "m_110984_",
+   "desc": "(Lcom/mojang/blaze3d/vertex/VertexConsumer;DDDFFFFFI)V",
+   "newName": "vertex",
+   "newDesc": "(Lcom/mojang/blaze3d/vertex/VertexConsumer;DDDFFFFFFI)V"
+  },
+  {
+   "owner": "net/minecraft/client/renderer/item/ItemProperties",
+   "name": "m_174570_",
+   "desc": "(Lnet/minecraft/world/item/Item;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/renderer/item/ClampedItemPropertyFunction;)V",
+   "newName": "register",
+   "newDesc": "(Lnet/minecraft/world/item/Item;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/renderer/item/ItemPropertyFunction;)V"
+  }
+ ],
+ "fields": []
+}

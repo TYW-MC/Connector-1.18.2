@@ -1,0 +1,54 @@
+{
+  "_comment_1_18_2": "1.18.2 port note: injectors.defaultRequire is 0, not 1. Several Connector injectors target 1.20.1-only members (e.g. item.ItemStackMixin -> 'lambda$useOn$3', which cannot exist on 1.18.2 because the whole body is inlined into ItemStack#useOn/m_41661_). InjectionInfo#validateTargets() only throws InvalidInjectionException when requiredCallbackCount > 0; with 0 a missing target becomes a silent no-op (see bytecode: 'ifle 198' -> 'return'). Keeping it at 0 lets a single boot run surface every incompatibility instead of one per run.",
+  "required": true,
+  "minVersion": "0.8.4",
+  "refmap": "mixins.connectormod.refmap.json",
+  "package": "org.sinytra.connector.mod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "plugin": "org.sinytra.connector.mod.ConnectorBootstrap",
+  "mixins": [
+    "CrashReportExtenderMixin",
+    "ForgeHooksMixin",
+    "IForgeItemMixin",
+    "PlayerListMixin",
+    "TagLoaderMixin",
+    "boot.DatagenModLoaderMixin",
+    "item.ForgeHooksMixin",
+    "item.ItemStackMixin",
+    "item.LateItemStackMixin",
+    "lang.AbstractPackResourcesMixin",
+    "lang.PathResourcePackAnonMixin",
+    "lang.PathResourcePackMixin",
+    "network.ConnectionTypeMixin",
+    "network.HandshakeHandlerMixin",
+    "network.NetworkFiltersMixin",
+    "registries.BootstrapMixin",
+    "registries.ForgeRegistryMixin",
+    "registries.MappedRegistryMixin",
+    "registries.NamespacedWrapperMixin"
+  ],
+  "client": [
+    "ForgeHooksClientMixin",
+    "HumanoidArmorLayerMixin",
+    "ItemBlockRenderTypesMixin",
+    "ItemOverridesMixin",
+    "boot.MainMixin",
+    "boot.MinecraftCrashDumpMixin",
+    "fieldtypes.BlockColorsMixin",
+    "fieldtypes.ItemColorsMixin",
+    "fieldtypes.ParticleEngineMixin",
+    "hud.ForgeGuiMixin",
+    "hud.GuiMixin",
+    "recipebook.RecipeBookCategoriesAccessor",
+    "recipebook.RecipeBookCategoriesMixin",
+    "registries.ClientForgeRegistryMixin",
+    "registries.MinecraftMixin"
+  ],
+  "server": [
+    "boot.ServerMainMixin",
+    "registries.MinecraftServerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}
