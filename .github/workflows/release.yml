@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle cache
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build
+        env:
+          # Drops the local "dev-<hash>" version suffix so the release jar is named
+          # Connector-1.0.0-beta.1+1.18.2.jar.
+          PUBLISH_RELEASE_TYPE: beta
+        run: ./gradlew build --no-daemon --stacktrace
+
+      - name: Collect release jar
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+          for f in build/libs/*.jar; do
+            case "$f" in
+              *-sources.jar) continue ;;
+              *-slim.jar) continue ;;
+              *-deps.jar) continue ;;
+              *-deps-reloc.jar) continue ;;
+              *-mod.jar) continue ;;
+              *-fabricloader.jar) continue ;;
+              *-all.jar) continue ;;
+              *-testmod.jar) continue ;;
+            esac
+            cp "$f" dist/
+          done
+          echo "Release assets:"
+          ls -la dist
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Sinytra Connector ${{ github.ref_name }}
+          body: |
+            **Run Fabric mods on Forge.** This is a port of
+            [Sinytra Connector](https://github.com/Sinytra/Connector) to Minecraft 1.18.2.
+
+            ## Compatibility
+
+            | | |
+            | --- | --- |
+            | Minecraft | 1.18.2 |
+            | Forge | 40.3.12 or newer |
+            | Java | 17 |
+            | Requires | Forgified Fabric API 1.18.2 |
+
+            ## What's inside
+
+            - Loads Fabric mods on top of Forge 1.18.2, including the mixin, access widener and
+              mod loader compatibility shims.
+
+            ## Fixes in this build
+
+            - **Dedicated servers no longer crash while building the network pipeline.**
+              The duplicate-network-handler guard was declared with an extra `ChannelPipeline`
+              parameter that the target lambda does not have, so the mixin failed to apply and
+              the server died during startup. The parameter has been removed and the pipeline is
+              now reached through the `Connection` instead.
+
+            ## Installation
+
+            1. Install Minecraft Forge 40.3.x for Minecraft 1.18.2.
+            2. Put this jar and `ForgifiedFabricAPI-1.18.2` into your `mods/` folder.
+            3. Put any Fabric mods you want to use into the same folder.
+
+            ## Building from source
+
+            ```bash
+            ./gradlew build
+            ```
+
+            Requires JDK 17. Builds run automatically on every push and on every release tag.
+          files: dist/*.jar
+          fail_on_unmatched_files: true
+          draft: false
+          prerelease: false
