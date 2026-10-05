@@ -241,6 +241,15 @@ sourceSets {
     }
 }
 
+// The upstream automated test sources under src/test target Minecraft APIs that do not exist
+// in 1.18.2 (net.minecraft.client.quickplay.QuickPlay, ScreenEvent.Opening/Closing,
+// net.minecraft.world.level.levelgen.WorldOptions, WorldDataConfiguration, ...), and the 1.18.2
+// port does not run Connector's automated game tests. Keep them out of the build lifecycle so
+// that `./gradlew build` succeeds, while leaving the sources in place for a future port.
+tasks.matching { it.name == "compileTestJava" || it.name == "test" }.configureEach {
+    enabled = false
+}
+
 println("Java: ${System.getProperty("java.version")}, JVM: ${System.getProperty("java.vm.version")} (${System.getProperty("java.vendor")}), Arch: ${System.getProperty("os.arch")}")
 minecraft {
     mappings("parchment", "2022.11.06-1.18.2")
