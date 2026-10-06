@@ -8,7 +8,7 @@ modId="connectormod"
 version="${file.jarVersion}"
 displayName="Connector"
 logoFile="logo.png"
-authors="Su5eD"
+authors="Su5eD,TYW"
 displayURL="https://github.com/Sinytra/Connector"
 description='''
 Connector is a translation/compatibility layer that allows running Fabric mods on MinecraftForge.
