@@ -33,7 +33,7 @@ jobs:
       - name: Build
         env:
           # Drops the local "dev-<hash>" version suffix so the release jar is named
-          # Connector-1.0.0-beta.1+1.18.2.jar.
+          # Connector-1.0.0-beta.2+1.18.2.jar.
           PUBLISH_RELEASE_TYPE: beta
         run: ./gradlew build --no-daemon --stacktrace
 
@@ -80,6 +80,22 @@ jobs:
               mod loader compatibility shims.
 
             ## Fixes in this build
+
+            - **A single oddly-named jar can no longer abort Fabric mod discovery.**
+              The scanner opened every jar in `mods/` through `SecureJar`, which derives a JPMS
+              module version from the *file name*. When that suffix looks like a pre-release -
+              e.g. `...-1.0-1.18+.jar` - `ModuleDescriptor.Version.parse` rejects it with
+              `IllegalArgumentException: 1.0-1.18+: Empty pre-release`, and since the call was
+              unguarded the exception took the entire scan down with
+              `Fabric mod discovery failed`, leaving Forge stuck during startup.
+
+              Jars are now opened defensively: if the file name cannot be turned into a module
+              version, the archive is inspected as a plain zip instead, which only reads entries
+              and therefore cannot fail on a version string. **Which jar triggers it is
+              incidental** - any jar whose name contains a pre-release-looking version behaves
+              the same way, and this has nothing to do with the mod inside it. The fallback is
+              silent by design: no error, no stack trace, and when no such jar is installed
+              nothing is logged at all and every jar keeps using the fast path unchanged.
 
             - **Dedicated servers no longer crash while building the network pipeline.**
               The duplicate-network-handler guard was declared with an extra `ChannelPipeline`

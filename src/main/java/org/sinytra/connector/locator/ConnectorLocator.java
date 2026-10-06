@@ -43,6 +43,7 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.module.ModuleDescriptor;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.stream.StreamSupport;
 
 import static cpw.mods.modlauncher.api.LamdbaExceptionUtils.rethrowFunction;
@@ -248,7 +251,26 @@ public class ConnectorLocator extends AbstractJarFileModLocator implements IModL
     }
 
     private static boolean isFabricModJar(Path path) {
-        SecureJar secureJar = SecureJar.from(path);
+        SecureJar secureJar;
+        try {
+            secureJar = SecureJar.from(path);
+        } catch (Throwable t) {
+            // SecureJar.from derives a module version from the *file name* through
+            // ModuleDescriptor.Version.parse, which rejects file names that contain a
+            // pre-release-looking version suffix (e.g. "...-1.0-1.18+.jar" ->
+            // "1.0-1.18+: Empty pre-release"). This is purely a naming detail of the file,
+            // not a defect of the mod inside it, so it must never abort the scan.
+            //
+            // Which jar triggers this is incidental: it only happens for jars that carry
+            // such a name, i.e. only while such a jar is present. With none of them on the
+            // classpath the fast SecureJar path is taken and nothing is logged at all.
+            // Therefore stay completely quiet here - a stack trace (even the exception
+            // message) would look like a failure to the user on every launch, while in
+            // reality the archive is handled by the zip fallback below just fine.
+            LOGGER.debug(SCAN, "Jar {} has a file name that is not a valid module version ({}); inspecting it as a plain archive instead", path, t.getMessage());
+            return isFabricModJarZip(path);
+        }
+
         String name = secureJar.name();
         Path modsToml = secureJar.getPath(ConnectorUtil.MODS_TOML);
         if (Files.exists(modsToml) && !containsPlaceholder(modsToml)) {
@@ -263,6 +285,33 @@ public class ConnectorLocator extends AbstractJarFileModLocator implements IModL
         }
         LOGGER.info(SCAN, "Fabric mod metadata not found in jar {}, ignoring", name);
         return false;
+    }
+
+    /**
+     * Zip-only equivalent of {@link #isFabricModJar(Path)}, used when {@link SecureJar#from(Path)}
+     * refuses the jar. It only reads entries out of the archive, so it cannot trip over an
+     * invalid module version derived from the file name.
+     */
+    private static boolean isFabricModJarZip(Path path) {
+        try (ZipFile zip = new ZipFile(path.toFile())) {
+            ZipEntry modsToml = zip.getEntry(ConnectorUtil.MODS_TOML);
+            if (modsToml != null) {
+                String contents = new String(zip.getInputStream(modsToml).readAllBytes(), StandardCharsets.UTF_8);
+                if (!contents.contains(PLACEHOLDER_PROPERTY)) {
+                    LOGGER.debug(SCAN, "Skipping jar {} as it contains a mods.toml file", path);
+                    return false;
+                }
+            }
+            if (zip.getEntry(ConnectorUtil.FABRIC_MOD_JSON) != null) {
+                LOGGER.debug(SCAN, "Found {} mod: {}", ConnectorUtil.FABRIC_MOD_JSON, path);
+                return true;
+            }
+            LOGGER.info(SCAN, "Fabric mod metadata not found in jar {}, ignoring", path.getFileName());
+            return false;
+        } catch (Exception e) {
+            LOGGER.warn(SCAN, "Failed to inspect jar {}, ignoring", path, e);
+            return false;
+        }
     }
 
     private static boolean containsPlaceholder(Path modsTomlPath) {
