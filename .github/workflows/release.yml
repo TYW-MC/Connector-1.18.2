@@ -33,7 +33,7 @@ jobs:
       - name: Build
         env:
           # Drops the local "dev-<hash>" version suffix so the release jar is named
-          # Connector-1.0.0-beta.2+1.18.2.jar.
+          # Connector-1.0.0-beta.3+1.18.2.jar.
           PUBLISH_RELEASE_TYPE: beta
         run: ./gradlew build --no-daemon --stacktrace
 
@@ -80,6 +80,16 @@ jobs:
               mod loader compatibility shims.
 
             ## Fixes in this build
+
+            - **Mods whose `mods.toml` declares authors as TOML tables no longer crash the scan.**
+              Cloth Config (and anything following the same style) writes
+              `authors = [{ name = "shedaniel" }]`, which NightConfig represents as a list of
+              config tables. The embedded loader assumed every author entry was a plain string
+              and threw `ClassCastException: SimpleCommentedConfig cannot be cast to String`,
+              aborting the whole Fabric mod discovery. Author entries of any structure are now
+              flattened into name strings (keeping the `name` key of a table), and a malformed
+              authors element is merely logged and ignored - it is cosmetic metadata and can
+              never abort discovery again.
 
             - **A single oddly-named jar can no longer abort Fabric mod discovery.**
               The scanner opened every jar in `mods/` through `SecureJar`, which derives a JPMS
