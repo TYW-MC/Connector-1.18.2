@@ -33,7 +33,7 @@ jobs:
       - name: Build
         env:
           # Drops the local "dev-<hash>" version suffix so the release jar is named
-          # Connector-1.0.0-beta.3+1.18.2.jar.
+          # Connector-1.0.0-beta.4+1.18.2.jar.
           PUBLISH_RELEASE_TYPE: beta
         run: ./gradlew build --no-daemon --stacktrace
 
@@ -80,6 +80,22 @@ jobs:
               mod loader compatibility shims.
 
             ## Fixes in this build
+
+            - **Cosmetic mod metadata can no longer abort Fabric mod discovery.**
+              A Forge `mods.toml` is free-form TOML and Forge only requires it to be loosely well
+              formed, so values read out of it cannot be assumed to have the shape Fabric would
+              produce. On top of the `authors` fix below, three more reads are now defensive:
+
+              - `version` - a version string Fabric cannot parse (Forge never demanded Fabric
+                semver) no longer aborts the scan. The mod is kept with a neutral version and a
+                warning is logged.
+              - `provides` - the declared mod id list is flattened from whatever structure it
+                really has instead of being cast to a string list.
+              - `license` - a mod that declares no license no longer trips `List.of`'s null
+                rejection.
+
+              Discovery still never fails on metadata: anything that cannot be understood is
+              logged and skipped.
 
             - **Mods whose `mods.toml` declares authors as TOML tables no longer crash the scan.**
               Cloth Config (and anything following the same style) writes
