@@ -34,6 +34,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * sync, but that only covers mods going through that API. This fallback covers the rest - mods
  * that mix into the vanilla maps directly, or that register before/independently of the API - by
  * answering from the vanilla map whenever the block or fluid has no predicate entry of its own.
+ *
+ * <p>The "has no entry of its own" test has to go through {@code containsKey}: Forge builds the
+ * predicate maps as fastutil maps whose
+ * {@code defaultReturnValue} is a solid-only predicate, so {@code get} returns a non-null value
+ * for unknown blocks as well.
  */
 @Mixin(ItemBlockRenderTypes.class)
 public abstract class ItemBlockRenderTypesMixin {
@@ -51,7 +56,7 @@ public abstract class ItemBlockRenderTypesMixin {
             return;
         }
 
-        if (ItemBlockRenderTypes.getBlockLayerPredicatesView().get(state.getBlock().delegate) == null) {
+        if (!ItemBlockRenderTypes.getBlockLayerPredicatesView().containsKey(state.getBlock().delegate)) {
             cir.setReturnValue(ItemBlockRenderTypes.getChunkRenderType(state) == layer);
         }
     }
@@ -63,7 +68,7 @@ public abstract class ItemBlockRenderTypesMixin {
         remap = false
     )
     private static void connector$fallBackToVanillaFluidLayer(FluidState state, RenderType layer, CallbackInfoReturnable<Boolean> cir) {
-        if (ItemBlockRenderTypes.getFluidLayerPredicatesView().get(state.getType().delegate) == null) {
+        if (!ItemBlockRenderTypes.getFluidLayerPredicatesView().containsKey(state.getType().delegate)) {
             cir.setReturnValue(ItemBlockRenderTypes.getRenderLayer(state) == layer);
         }
     }

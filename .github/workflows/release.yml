@@ -33,7 +33,7 @@ jobs:
       - name: Build
         env:
           # Drops the local "dev-<hash>" version suffix so the release jar is named
-          # Connector-1.0.0-beta.5+1.18.2.jar.
+          # Connector-1.0.0-beta.6+1.18.2.jar.
           PUBLISH_RELEASE_TYPE: beta
         run: ./gradlew build --no-daemon --stacktrace
 
@@ -80,6 +80,15 @@ jobs:
               mod loader compatibility shims.
 
             ## Fixes in this build
+
+            - **The vanilla-map fallback in `canRenderInLayer` now really runs.** The previous
+              build only answered from the vanilla map when the predicate map returned `null` for
+              a block, but Forge builds that map as a fastutil map with a solid-only
+              `defaultReturnValue`, so `get` returns a non-null predicate for unknown blocks too
+              and the fallback was dead code. The lookup now uses `containsKey`, which is true
+              only for blocks that have a predicate entry of their own, so blocks registered
+              directly into the vanilla map (or by an older Fabric API) are rendered with the
+              layer they were registered with instead of falling through to the solid default.
 
             - **Forge's render layer predicate map now agrees with the vanilla one, so
               optimisation mods render Fabric blocks with the layer they were registered with.**
