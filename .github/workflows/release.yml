@@ -33,7 +33,7 @@ jobs:
       - name: Build
         env:
           # Drops the local "dev-<hash>" version suffix so the release jar is named
-          # Connector-1.0.0-beta.4+1.18.2.jar.
+          # Connector-1.0.0-beta.5+1.18.2.jar.
           PUBLISH_RELEASE_TYPE: beta
         run: ./gradlew build --no-daemon --stacktrace
 
@@ -81,21 +81,36 @@ jobs:
 
             ## Fixes in this build
 
+            - **Forge's render layer predicate map now agrees with the vanilla one, so
+              optimisation mods render Fabric blocks with the layer they were registered with.**
+              Forge stores block and fluid render layers twice: the vanilla `f_109275_`/`f_109276_`
+              maps, and a second, predicate-shaped copy (`blockRenderChecks`/`fluidRenderChecks`)
+              that it derives from them *once*, in `ItemBlockRenderTypes`'s static initialiser, and
+              never regenerates. `canRenderInLayer` answers from that copy - and so do the
+              optimisation mods, whose `EmbeddiumRenderLayerCache` builds a state's render type
+              list out of `ItemBlockRenderTypes.canRenderInLayer` - while vanilla's chunk builder
+              reads the vanilla maps. Anything registered into the vanilla maps afterwards (which
+              is what a mod does when it mixes into them directly, or when it registers through an
+              older Fabric API) was invisible to the predicate map, which then fell back to its
+              default predicate that only accepts the solid layer: such a block was rendered as
+              solid, its texture's alpha channel was ignored, and the transparent pixels were
+              drawn in their own colour - solid black or white faces for the road line and sign
+              textures whose transparent pixels are black or near-white. `canRenderInLayer` now
+              falls back to the vanilla map whenever a block or fluid has no predicate entry of
+              its own, so both maps can no longer disagree. Blocks with an explicit predicate
+              (including Forge's leaves special case) are untouched.
+
+            ## Also in this line
+
             - **Cosmetic mod metadata can no longer abort Fabric mod discovery.**
               A Forge `mods.toml` is free-form TOML and Forge only requires it to be loosely well
               formed, so values read out of it cannot be assumed to have the shape Fabric would
-              produce. On top of the `authors` fix below, three more reads are now defensive:
-
-              - `version` - a version string Fabric cannot parse (Forge never demanded Fabric
-                semver) no longer aborts the scan. The mod is kept with a neutral version and a
-                warning is logged.
-              - `provides` - the declared mod id list is flattened from whatever structure it
-                really has instead of being cast to a string list.
-              - `license` - a mod that declares no license no longer trips `List.of`'s null
-                rejection.
-
-              Discovery still never fails on metadata: anything that cannot be understood is
-              logged and skipped.
+              produce. `version`, `provides` and `license` are read defensively: a version string
+              Fabric cannot parse no longer aborts the scan (the mod is kept with a neutral
+              version and a warning is logged), the declared mod id list is flattened from
+              whatever structure it really has instead of being cast to a string list, and a mod
+              that declares no license no longer trips `List.of`'s null rejection. Discovery still
+              never fails on metadata: anything that cannot be understood is logged and skipped.
 
             - **Mods whose `mods.toml` declares authors as TOML tables no longer crash the scan.**
               Cloth Config (and anything following the same style) writes
